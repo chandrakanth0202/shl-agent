@@ -1,29 +1,40 @@
-from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 import json
 
-model = SentenceTransformer("all-MiniLM-L6-v2")
+model = None
+catalog = None
+catalog_embeddings = None
 
-def load_catalog():
+def load_model():
+
+    global model
+    global catalog
+    global catalog_embeddings
+
+    if model is not None:
+        return
+
+    from sentence_transformers import SentenceTransformer
+
+    model = SentenceTransformer("all-MiniLM-L6-v2")
 
     with open("app/data/shl_catalog.json", "r") as file:
-        return json.load(file)
+        catalog = json.load(file)
 
-catalog = load_catalog()
+    catalog_texts = [
 
-catalog_texts = [
+        item.get("name", "") + " " +
+        item.get("description", "")
 
-    item["name"] + " " +
-    item["description"] + " " +
-    " ".join(item["skills"])
+        for item in catalog
+    ]
 
-    for item in catalog
-]
-
-catalog_embeddings = model.encode(catalog_texts)
+    catalog_embeddings = model.encode(catalog_texts)
 
 def semantic_recommend(query: str):
+
+    load_model()
 
     query_embedding = model.encode([query])
 

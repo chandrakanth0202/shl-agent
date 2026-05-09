@@ -1,41 +1,48 @@
 import json
-import faiss
 import numpy as np
+import faiss
 
-from sentence_transformers import SentenceTransformer
+model = None
+catalog = None
+index = None
 
-model = SentenceTransformer("all-MiniLM-L6-v2")
+def load_faiss():
 
-def load_catalog():
+    global model
+    global catalog
+    global index
+
+    if model is not None:
+        return
+
+    from sentence_transformers import SentenceTransformer
+
+    model = SentenceTransformer("all-MiniLM-L6-v2")
 
     with open("app/data/shl_catalog.json", "r") as file:
-        return json.load(file)
+        catalog = json.load(file)
 
-catalog = load_catalog()
+    catalog_texts = [
 
-catalog_texts = [
+        item.get("name", "") + " " +
+        item.get("description", "")
 
-    item["name"] + " " +
-    item["description"] + " " +
-    " ".join(item["skills"])
+        for item in catalog
+    ]
 
-    for item in catalog
-]
+    embeddings = model.encode(catalog_texts)
 
-# generate embeddings
-embeddings = model.encode(catalog_texts)
+    embeddings = np.array(embeddings).astype("float32")
 
-# convert to numpy float32
-embeddings = np.array(embeddings).astype("float32")
+    dimension = embeddings.shape[1]
 
-# create FAISS index
-dimension = embeddings.shape[1]
+    index = faiss.IndexFlatL2(dimension)
 
-index = faiss.IndexFlatL2(dimension)
-
-index.add(embeddings)
+    index.add(embeddings)
 
 def faiss_recommend(query: str):
+
+    load_faiss()
 
     query_embedding = model.encode([query])
 
