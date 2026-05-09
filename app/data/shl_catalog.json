@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Java 8 (New)",
+    "url": "https://www.shl.com",
+    "description": "Measures Java programming and backend development skills.",
+    "skills": ["java", "backend", "programming"],
+    "test_type": "Technical",
+    "level": "Mid"
+  },
+  {
+    "name": "Python (New)",
+    "url": "https://www.shl.com",
+    "description": "Measures Python programming and problem solving skills.",
+    "skills": ["python", "backend", "programming"],
+    "test_type": "Technical",
+    "level": "Senior"
+  },
+  {
+    "name": "OPQ Personality Questionnaire",
+    "url": "https://www.shl.com",
+    "description": "Measures workplace personality and behavioral preferences.",
+    "skills": ["personality", "behavior"],
+    "test_type": "Behavioral",
+    "level": "All"
+  },
+  {
+    "name": "General Ability Test",
+    "url": "https://www.shl.com",
+    "description": "Measures cognitive and reasoning ability.",
+    "skills": ["cognitive", "reasoning", "problem-solving"],
+    "test_type": "Cognitive",
+    "level": "Junior"
+  }
+]
