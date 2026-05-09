@@ -298,87 +298,155 @@ Expected:
 ```
 
 ---
-
-# Deployment
-
-The project can be deployed on:
-- Render
-- Railway
-- Docker
-
 ---
-
-## Render Deployment
-
-### Build Command
-
-```bash
-pip install -r requirements.txt
-```
-
-### Start Command
-
-```bash
-uvicorn app.main:app --host 0.0.0.0 --port 10000
-```
-
----
-
 # Technologies Used
 
-- Python
+## Backend
+
+- Python 3.11
 - FastAPI
+- Uvicorn
+
+---
+
+## AI & Retrieval
+
 - Sentence Transformers
 - FAISS
-- NumPy
 - Scikit-learn
+- NumPy
+
+---
+
+## Web Scraping
+
+- Requests
+- BeautifulSoup4
+
+---
+
+## Testing
+
 - Pytest
 
 ---
 
-# Design Decisions
+## Deployment
 
-## Why FastAPI
+- Render
 
-- lightweight
-- fast development
-- automatic Swagger docs
-- easy API deployment
+## Development Tools
 
----
+- Git
+- GitHub
+- Notepad
+- Swagger UI
 
-## Why Hybrid Retrieval
+# Model Used
 
-Keyword search alone is limited.
+Semantic similarity search uses:
 
-Hybrid retrieval improves:
-- semantic understanding
-- contextual matching
-- ranking quality
+```txt
+all-MiniLM-L6-v2
+```
 
----
-
-## Why FAISS
-
-FAISS enables:
-- efficient vector search
-- scalable retrieval
-- faster semantic similarity operations
+from Sentence Transformers.
 
 ---
 
-# Future Improvements
+# Retrieval Techniques
 
-Possible future enhancements:
+The system combines:
 
-- better metadata extraction
-- larger catalog coverage
-- LLM-based ranking
-- Redis caching
-- conversation summarization
+- keyword-based retrieval
+- semantic similarity search
+- FAISS vector retrieval
+- hybrid recommendation ranking
 
 ---
 
-# Author
+# Public Deployment
 
-Developed as part of the SHL Labs conversational recommendation assignment.
+The project is publicly deployed on Render.
+
+## Public API URL
+
+```tx
+https://shl-agent-pzda.onrender.com/
+
+---
+
+## Swagger API Documentation
+
+```txt
+https://shl-agent-pzda.onrender.com/docs
+
+---
+
+## Health Check Endpoint
+
+```txt
+https://shl-agent-pzda.onrender.com/health
+```
+
+---
+
+# Example API Request
+
+## POST `/chat`
+
+Example request:
+
+```json
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "Need senior Python developer assessment"
+    }
+  ]
+}
+```
+
+Example response:
+
+```json
+{
+  "reply": "Based on your hiring requirements, the following SHL assessments are recommended.",
+  "recommendations": [
+    {
+      "name": "Python Assessment",
+      "url": "https://www.shl.com/",
+      "test_type": "Technical"
+    }
+  ],
+  "end_of_conversation": true
+}
+```
+
+---
+
+# Assignment Goals Covered
+
+This implementation supports:
+
+- conversational clarification
+- recommendation refinement
+- assessment comparison
+- prompt injection protection
+- semantic retrieval
+- FAISS vector search
+- hybrid retrieval
+- stateless FastAPI APIs
+- structured recommendation responses
+
+---
+
+# Deployment Notes
+
+The application is deployed using Render free tier.
+
+To reduce memory usage during deployment:
+- embedding models are lazy-loaded
+- FAISS initialization happens dynamically
+- semantic retrieval components are loaded only when required
